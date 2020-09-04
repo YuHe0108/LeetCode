@@ -101,6 +101,48 @@ class Solution:
 
 ​		快慢指针的快慢主要是指在遍历链表过程中指针移动的快慢。比如遍历单链表，我们可以让慢指针每次移动一个节点，让快指针移动两个或两个以上的节点。
 
+#### 4.4 构造双向指针
+
+​		双向指针:
+
+```python
+class Solution:
+    def flatten(self, head: 'Node') -> 'Node':
+        if not head:
+            return
+        vals = []
+        while head:
+            vals.append(head.val)
+            child_val = self.check_child(head)
+            vals.extend(child_val)
+            head = head.next
+        
+        res = root = Node(0, None, None, None)
+        nodes = [] 
+        for i in range(len(vals)):
+            root.next = Node(vals[i], None, None, None)
+            root = root.next
+            if nodes:
+                root.prev = nodes.pop()
+            nodes.append(root)
+        return res.next
+            
+    def check_child(self, root):
+        child = root.child
+        vals = []
+        while child:
+            vals.append(child.val)
+            if child.child:
+                c_vals = self.check_child(child)
+                vals.extend(c_vals)
+            child = child.next
+        return vals
+```
+
+
+
+
+
 
 
 
