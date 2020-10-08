@@ -34,3 +34,11 @@ class Solution:
 
 
 
+#### 2、第二类区间型DP
+
+<img src="C:\Users\Ying\AppData\Roaming\Typora\typora-user-images\image-20201005091947863.png" alt="image-20201005091947863" style="zoom:80%;" />
+
+
+
+
+
