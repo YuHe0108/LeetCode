@@ -97,3 +97,52 @@ class Solution:
         return res
 ```
 
+
+
+#### 4、从根节点向上操作
+
+##### 814-Binary Tree Pruning
+
+```python
+class Solution:
+    def pruneTree(self, root: TreeNode) -> TreeNode:
+        def helper(node):
+            if not node:
+                return None
+            node.left = helper(node.left)
+            node.right = helper(node.right)
+            if not node.left and not node.right and node.val == 0:
+                return None
+            return node
+        
+        return helper(root)
+```
+
+
+
+#### 5、重建树：low bound\high bound
+
+##### 1008-Construct Binary Search Tree from Preorder Traversal
+
+```python
+class Solution:
+    def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
+        
+        def helper(low, high):
+            nonlocal idx
+            if idx == N: 
+                return None
+            val = preorder[idx]
+            if val < low or val > high:
+                return None
+            idx += 1
+            cur_node = TreeNode(val)
+            cur_node.left = helper(low, val)
+            cur_node.right = helper(val, high)
+            return cur_node
+
+        idx = 0
+        N = len(preorder)
+        return helper(-float('inf'), float('inf'))
+```
+
