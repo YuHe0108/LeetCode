@@ -146,3 +146,18 @@ class Solution:
         return helper(-float('inf'), float('inf'))
 ```
 
+
+
+#### 6、遍历二叉树下有多少节点
+
+```python
+def count_elements(root):
+	if not root: return 0
+	l_count = count_elements(root.left)
+	r_count = count_elements(root.right)
+	return l_count + r_count + 1
+```
+
+
+
+##### 
