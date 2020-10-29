@@ -1,4 +1,4 @@
-##### 1、并查集的使用及代码模版
+#### 1、并查集的使用及代码模版
 
 ##### 684. Redundant Connection
 
@@ -32,6 +32,8 @@ class Solution:
                 # 父节点不同的话，需要 union一下
                 union(a, b)
 ```
+
+
 
 #### 2、二叉搜索树
 
@@ -160,4 +162,73 @@ def count_elements(root):
 
 
 
-##### 
+#### 7、进制之间的相互转换
+
+##### 1017-Convert to Base -2：将10进制的数字转换为 -2 进制
+
+```python
+class Solution:
+    def baseNeg2(self, N: int) -> str:
+        if N == 0: return '0'
+        base, res, carry = -2, [], 0
+        while N != 0:
+            r = N % base # 余数
+            d = N // (base) # 商
+            if r < 0: # 余数不能出现负数
+                d += 1
+                r += abs(base)
+            res.append(str(r))
+            N = d #　直到商不为0为止
+        res.reverse()
+        return ''.join(res)
+```
+
+
+
+##### 1073-Adding Two Negabinary Numbers：实现两个数组之间的进制转换
+
+```python
+class Solution:
+    def addNegabinary(self, arr1, arr2):
+        base = -2
+        # 按最高有效位到最低有效位的顺序排列
+        arr1.reverse() # reverse之后，最低位在idx=0的位置
+        arr2.reverse()
+        res = []
+        carry = 0 
+        for i in range(max(len(arr1), len(arr2)) + 2):
+            a = arr1[i] if i < len(arr1) else 0
+            b = arr2[i] if i < len(arr2) else 0
+            sum_val = a + b + carry
+            r = sum_val % (base) # 余数
+            carry = sum_val // (base) # 商
+            if r < 0:
+                carry += 1
+                r += abs(base)
+            res.append(r)
+        while len(res) > 1 and res[-1] == 0:
+            res.pop()
+        res.reverse()
+        return res
+```
+
+
+
+#### 8、DP 常见问题类型
+
+##### 8-1 第一类区间型 DP
+
+##### 8-2 第一类区间型 DP
+
+##### 8-3 第一类区间型 DP
+
+##### 8-4 第一类区间型 DP
+
+
+
+
+
+
+
+
+
