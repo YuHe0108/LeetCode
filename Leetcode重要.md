@@ -1,4 +1,4 @@
-#### 1、并查集的使用及代码模版
+### 1、并查集的使用及代码模版
 
 ##### 684. Redundant Connection
 
@@ -35,7 +35,7 @@ class Solution:
 
 
 
-#### 2、二叉搜索树
+### 2、二叉搜索树
 
 ##### 701. Insert into a Binary Search Tree： 
 
@@ -55,7 +55,7 @@ class Solution:
 
 
 
-#### 3、遍历从根节点到叶子节点的所有路径
+### 3、遍历从根节点到叶子节点的所有路径
 
 ```python
 def dfs(node, path):
@@ -101,7 +101,7 @@ class Solution:
 
 
 
-#### 4、从根节点向上操作
+### 4、从根节点向上操作
 
 ##### 814-Binary Tree Pruning
 
@@ -122,7 +122,7 @@ class Solution:
 
 
 
-#### 5、重建树：low bound\high bound
+### 5、重建树：low bound\high bound
 
 ##### 1008-Construct Binary Search Tree from Preorder Traversal
 
@@ -150,7 +150,7 @@ class Solution:
 
 
 
-#### 6、遍历二叉树下有多少节点
+### 6、遍历二叉树下有多少节点
 
 ```python
 def count_elements(root):
@@ -162,7 +162,7 @@ def count_elements(root):
 
 
 
-#### 7、进制之间的相互转换
+### 7、进制之间的相互转换
 
 ##### 1017-Convert to Base -2：将10进制的数字转换为 -2 进制
 
@@ -214,9 +214,72 @@ class Solution:
 
 
 
-#### 8、DP 常见问题类型
+### 8、DP 常见问题类型
 
-##### 8-1 第一类区间型 DP
+##### 8-1 决策形--递归 + 记忆法
+
+##### 1140-Stone Game II
+
+```python
+from collections import defaultdict
+
+class Solution:
+    def stoneGameII(self, piles) -> int:
+        M, N = 1, len(piles)
+        suf_sum = [0] * (N + 1)
+        for i in range(N-1, -1, -1):
+            suf_sum[i] = suf_sum[i+1] + piles[i]
+        self.seen = defaultdict(int)
+        return self.helper(0, 1, suf_sum, piles)
+    
+    def helper(self, i, M, suf_sum, piles):
+        if i == len(piles): 
+            return 0
+        key = (i, M)
+        if key in self.seen:
+            return self.seen[key]
+        
+        sum_val = 0
+        for x in range(1, M*2+1):
+            if i + x - 1 >= len(piles):
+                break
+            sum_val += piles[i + x -1]
+            self.seen[key] = max(self.seen[key], 
+            				   sum_val + suf_sum[i+x] - self.helper(i+x, max(x, M),suf_sum, piles))
+        return self.seen[key]
+            
+        
+```
+
+
+
+##### 8-2 DP + 前缀和
+
+1546-Maximum Number of Non-Overlapping Subarrays With Sum Equals Target
+
+```python
+class Solution:
+    def maxNonOverlapping(self, nums, target: int) -> int:
+        # 前缀和
+        pre_sum = [0, nums[0]]
+        for i in range(1, len(nums)):
+            pre_sum.append(pre_sum[-1] + nums[i])
+        
+        pre_sum_dict = {0: 0} # 0 的前缀和为0
+        dp = [0] * (len(nums) + 1)
+        if nums[0] == target: 
+            dp[1] = 1
+        for i in range(1, len(nums) + 1):
+            dp[i] = dp[i-1] # 不使用当前的 val
+            needs = pre_sum[i] - target
+            if needs in pre_sum_dict:
+                j = pre_sum_dict[needs]
+                dp[i] = max(dp[i], dp[j] + 1)
+            pre_sum_dict[pre_sum[i]] = i
+        return dp[-1]
+```
+
+
 
 ##### 8-2 第一类区间型 DP
 
