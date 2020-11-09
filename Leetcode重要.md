@@ -291,6 +291,83 @@ class Solution:
 
 
 
+## 8、Bit Manipulation 常见问题类型
+
+##### 1、如何取出一个二进制的低 n 位
+
+例如：一个数的二进制表达形式为：10001，那么如何取出这个数的 100 [01] 这两个数字呢？
+
+可以使用位运算：10001 & （int(11)）-->  01 
+
+
+
+###### 405-Convert a Number to Hexadecimal： 二进制转换16进制
+
+![405](E:\Codes\LeetCode\Bit Manipulation\1108\405.jpg)
+
+```python
+class Solution:
+    def toHex(self, num: int) -> str:
+        hex_num = '0123456789abcdef'
+        if num == 0: return '0'
+        
+        cnt = 0
+        h = ''
+        while cnt < 8 and num:
+            h = hex_num[num & 15] + h # 15 -> 1111 表示取出低四位
+            num >>= 4
+            cnt += 1
+        return h
+```
+
+
+
+###### 2、生成具有 k 个 1 的 bit-mask 的全部可能
+
+```python
+# m 表示想要生成有多少位 的二进制
+m = 10
+state = (1 << k) - 1 # 具有 k 个 1 的 bit-mask
+
+while state < (1 << m):
+    # check(state)
+    c = state & -state
+    r = state + c
+    state = (((r ^ state) >> 2) / c) | r
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

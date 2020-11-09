@@ -40,5 +40,65 @@ class Solution:
 
 
 
+# 二、重点题型
 
+##### 1320-Minimum Distance to Type a Word Using Two Fingers
+
+```python
+class Solution:
+    def minimumDistance(self, word: str) -> int:
+        def get_dist(A, B):
+            a_x, a_y = A // 6, A % 6
+            b_x, b_y = B // 6, B % 6
+            return abs(a_x - b_x) + abs(a_y - b_y)
+
+        n = len(word)
+        dp = [[float('inf')]  * 26 for _ in range(n)]
+        dp[0][:] = [0] * 26
+        
+        for k in range(1, n):
+            cur = ord(word[k]) - ord('A')
+            pre = ord(word[k-1]) - ord('A')
+            for i in range(26):
+                dp[k][i] = min(dp[k][i], 
+                               dp[k-1][i] + get_dist(pre, cur), 
+                               dp[k-1][cur] + get_dist(pre, i))
+        return min(dp[-1][:])
+```
+
+
+
+#### 2、查找矩阵中的sub_matrix
+
+##### 1074-Number of Submatrices That Sum to Target
+
+```python
+from collections import defaultdict
+
+class Solution:
+    def numSubmatrixSumTarget(self, matrix, target: int) -> int:
+        rows, cols = len(matrix), len(matrix[0])
+        
+        def calc(arr):
+            cnt = 0
+            presum = 0
+            record = defaultdict(int)
+            record[0] = 1
+            for i in range(cols):
+                presum += arr[i]
+                if presum - target in record:
+                    cnt += record[presum - target]
+                record[presum] += 1
+            return cnt
+        
+        count = 0
+        for i in range(rows):
+            temp = [0] * cols
+            for j in range(i, rows):
+                for k in range(cols):
+                    temp[k] += matrix[j][k]
+                # 寻找sub_matrix == target的值
+                count += calc(temp)
+        return count
+```
 
