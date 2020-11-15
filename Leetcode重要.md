@@ -1,4 +1,4 @@
-### 1、并查集的使用及代码模版
+## 1、并查集的使用及代码模版
 
 ##### 684. Redundant Connection
 
@@ -35,7 +35,7 @@ class Solution:
 
 
 
-### 2、二叉搜索树
+## 2、二叉搜索树
 
 ##### 701. Insert into a Binary Search Tree： 
 
@@ -55,7 +55,7 @@ class Solution:
 
 
 
-### 3、遍历从根节点到叶子节点的所有路径
+## 3、遍历从根节点到叶子节点的所有路径
 
 ```python
 def dfs(node, path):
@@ -101,7 +101,7 @@ class Solution:
 
 
 
-### 4、从根节点向上操作
+## 4、从根节点向上操作
 
 ##### 814-Binary Tree Pruning
 
@@ -122,7 +122,7 @@ class Solution:
 
 
 
-### 5、重建树：low bound\high bound
+## 5、重建树：low bound\high bound
 
 ##### 1008-Construct Binary Search Tree from Preorder Traversal
 
@@ -150,7 +150,7 @@ class Solution:
 
 
 
-### 6、遍历二叉树下有多少节点
+## 6、遍历二叉树下有多少节点
 
 ```python
 def count_elements(root):
@@ -162,7 +162,7 @@ def count_elements(root):
 
 
 
-### 7、进制之间的相互转换
+## 7、进制之间的相互转换
 
 ##### 1017-Convert to Base -2：将10进制的数字转换为 -2 进制
 
@@ -287,10 +287,6 @@ class Solution:
 
 ##### 8-4 第一类区间型 DP
 
-
-
-
-
 ## 8、Bit Manipulation 常见问题类型
 
 ##### 1、如何取出一个二进制的低 n 位
@@ -338,7 +334,28 @@ while state < (1 << m):
 
 
 
+## 9、前缀树 Trie
 
+##### 1、前缀树模版
+
+```python
+class Node:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+class Trie:
+    def __init__(self):
+        self.root = Node()
+        
+    def insert(self, word):
+        node = self.root
+        for char in word:
+            if char not in node.children:
+                node.children[char] = Node()
+            node = node.children[char]
+        node.is_end = True
+```
 
 
 
