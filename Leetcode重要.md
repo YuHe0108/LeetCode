@@ -154,7 +154,8 @@ class Solution:
 
 ```python
 def count_elements(root):
-	if not root: return 0
+	if not root: 
+        return 0
 	l_count = count_elements(root.left)
 	r_count = count_elements(root.right)
 	return l_count + r_count + 1
@@ -355,6 +356,134 @@ class Trie:
                 node.children[char] = Node()
             node = node.children[char]
         node.is_end = True
+```
+
+
+
+## 10、双端队列的构建
+
+```python
+class LinkedListNode:
+    def __init__(self, val: int):
+        self.val = val
+        self.prev = None # 前节点
+        self.succ = None # 后节点
+
+class LinkedList:
+    def __init__(self):
+        self.head = LinkedListNode(-1)
+        self.tail = LinkedListNode(-1)
+        self.head.succ = self.tail
+        self.tail.prev = self.head
+        self.size = 2 # 初始化长度2 即两个dummy节点
+    
+    def __str__(self):
+        ret = list()
+        cur = self.head
+        while cur:
+            ret.append(cur.val)
+            cur = cur.succ
+        return str(ret)
+
+    def insert(self, it: LinkedListNode, val: int):
+        """在当前节点前插入一个节点"""
+        self.size += 1
+        node = LinkedListNode(val)
+        it.prev.succ = node
+        node.prev = it.prev
+        it.prev = node
+        node.succ = it
+    
+    def erase(self, it: LinkedListNode) -> LinkedListNode:
+        """删除当前节点"""
+        self.size -= 1
+        ret = it.succ
+        it.prev.succ = it.succ
+        it.succ.prev = it.prev
+        return ret
+    
+    def advance(self, it: LinkedListNode, dt: int) -> LinkedListNode:
+        """移动指针指定个位置"""
+        if dt > 0:
+            for _ in range(dt):
+                it = it.succ
+        elif dt < 0:
+            for _ in range(-dt):
+                it = it.prev
+        return it
+
+
+class FrontMiddleBackQueue:
+
+    def __init__(self):
+        self.q = LinkedList()
+        self.it = self.q.head
+        self.ptrpos = 0 # 当前指针位置
+
+    def pushFront(self, val: int) -> None:
+        # 指针不指向哑头节点
+        if self.ptrpos != 0:
+            self.ptrpos += 1
+        self.q.insert(self.q.head.succ, val)
+
+    def pushMiddle(self, val: int) -> None:
+        pos = self.q.size // 2
+        # 均摊 O(1)
+        self.it = self.q.advance(self.it, pos - self.ptrpos) # 移动到中间位置
+        self.q.insert(self.it, val)
+        self.ptrpos = pos+1
+        
+    def pushBack(self, val: int) -> None:
+        # 指针指向哑尾节点
+        if self.ptrpos == self.q.size - 1:
+            self.ptrpos += 1
+        self.q.insert(self.q.tail, val)
+
+    def popFront(self) -> int:
+        if self.q.size == 2:
+            return -1
+        ret = self.q.head.succ.val
+        if self.ptrpos == 1:
+            self.it = self.q.erase(self.it)
+        else:
+            self.q.erase(self.q.head.succ)
+            # 指针不指向哑头节点
+            if self.ptrpos != 0:
+                self.ptrpos -= 1
+        return ret
+
+    def popMiddle(self) -> int:
+        if self.q.size == 2:
+            return -1
+        pos = (self.q.size - 1) // 2
+        # 均摊 O(1)
+        self.it = self.q.advance(self.it, pos - self.ptrpos)
+        ret = self.it.val
+        self.it = self.q.erase(self.it)
+        self.ptrpos = pos
+        return ret
+
+    def popBack(self) -> int:
+        if self.q.size == 2:
+            return -1
+        ret = self.q.tail.prev.val
+        if self.ptrpos == self.q.size - 2:
+            self.it = self.q.erase(self.it)
+        else:
+            self.q.erase(self.q.tail.prev)
+            # 指针指向哑尾节点
+            if self.ptrpos == self.q.size:
+                self.ptrpos -= 1
+        return ret
+
+# Your FrontMiddleBackQueue object will be instantiated and called as such:
+# obj = FrontMiddleBackQueue()
+# obj.pushFront(val)
+# obj.pushMiddle(val)
+# obj.pushBack(val)
+# param_4 = obj.popFront()
+# param_5 = obj.popMiddle()
+# param_6 = obj.popBack()
 ```
 
 
