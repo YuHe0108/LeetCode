@@ -488,11 +488,25 @@ class FrontMiddleBackQueue:
 
 
 
+## Tarjan
+
+##### 1. Tarjan算法，一个关于图的联通性的算法。1192
 
 
 
+## Bit 
 
+##### 1. 一共有 m 位，但是只想遍历有 k 个位置为 1 的状态 ---- 1879、1066
 
+```python
+# k 个 bit 位置的值为 1，一共有 m 位
+state = (1 << k) - 1
+while state < (1 << m):
+    dosomething()
+    c = state & (-state)
+    r = state + c
+    state = (((r ^ state) >> 2) / c) | r
+```
 
 
 
